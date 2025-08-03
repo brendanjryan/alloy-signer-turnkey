@@ -17,8 +17,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Read rust-toolchain.toml
+        uses: SebRollen/toml-action@v1.2.0
+        id: read_rust_toolchain
+        with:
+          file: rust-toolchain.toml
+          field: toolchain.channel
+
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@master
+        id: rust-toolchain
+        with:
+          toolchain: ${{ steps.read_rust_toolchain.outputs.value }}
+          components: rustfmt, clippy
 
       - name: Cache cargo registry
         uses: actions/cache@v4
@@ -27,7 +38,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}-${{ steps.rust-toolchain.outputs.cachekey }}
           restore-keys: |
             ${{ runner.os }}-cargo-registry-
 
@@ -35,7 +46,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: target/
-          key: ${{ runner.os }}-cargo-build-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-build-${{ hashFiles('**/Cargo.lock') }}-${{ steps.rust-toolchain.outputs.cachekey }}
           restore-keys: |
             ${{ runner.os }}-cargo-build-
 
@@ -57,8 +68,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Read rust-toolchain.toml
+        uses: SebRollen/toml-action@v1.2.0
+        id: read_rust_toolchain
+        with:
+          file: rust-toolchain.toml
+          field: toolchain.channel
+
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.read_rust_toolchain.outputs.value }}
 
       - name: Install cargo-audit
         run: cargo install cargo-audit
@@ -75,8 +95,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Read rust-toolchain.toml
+        uses: SebRollen/toml-action@v1.2.0
+        id: read_rust_toolchain
+        with:
+          file: rust-toolchain.toml
+          field: toolchain.channel
+
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@master
+        id: rust-toolchain
+        with:
+          toolchain: ${{ steps.read_rust_toolchain.outputs.value }}
 
       - name: Cache cargo registry
         uses: actions/cache@v4
@@ -85,7 +115,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}-${{ steps.rust-toolchain.outputs.cachekey }}
           restore-keys: |
             ${{ runner.os }}-cargo-registry-
 
@@ -93,7 +123,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: target/
-          key: ${{ runner.os }}-cargo-build-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-build-${{ hashFiles('**/Cargo.lock') }}-${{ steps.rust-toolchain.outputs.cachekey }}
           restore-keys: |
             ${{ runner.os }}-cargo-build-
 
