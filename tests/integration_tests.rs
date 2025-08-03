@@ -1,8 +1,7 @@
 use alloy_primitives::{Address, ChainId, B256};
-use alloy_signer_turnkey::{Result, Signer, TurnkeyError, TurnkeyP256ApiKey, TurnkeySigner};
+use alloy_signer_turnkey::{Signer, TurnkeyP256ApiKey, TurnkeySigner};
 
 const ADDRESS_STR: &str = "0xB00F0759DbeeF5E543Cc3E3B07A6442F5f3928a2";
-const CHAIN_ID: ChainId = 1;
 const ORGANIZATION_ID: &str = "test-org";
 
 fn address() -> Address {
