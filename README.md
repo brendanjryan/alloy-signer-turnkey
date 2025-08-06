@@ -80,6 +80,51 @@ let provider = ProviderBuilder::new()
 // Now you can send transactions using Turnkey for signing
 ```
 
+### Contract Interaction
+
+```rust
+use alloy_sol_types::sol;
+use alloy_contract::ContractInstance;
+
+// Define your contract using the sol! macro
+sol! {
+    #[sol(rpc)]
+    contract SimpleStorage {
+        uint256 public storedValue;
+        
+        function setValue(uint256 value) public;
+        function getValue() public view returns (uint256);
+    }
+}
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Set up your Turnkey signer (as shown above)
+    let signer = TurnkeySigner::new(/* ... */)?;
+    let wallet = EthereumWallet::from(signer);
+    
+    // Create provider with wallet
+    let provider = ProviderBuilder::new()
+        .with_recommended_fillers()
+        .wallet(wallet)
+        .on_http("your-rpc-url".parse()?);
+    
+    // Create contract instance
+    let contract = SimpleStorage::new(contract_address, &provider);
+    
+    // Read from contract (view call)
+    let current_value = contract.getValue().call().await?;
+    println!("Current value: {}", current_value._0);
+    
+    // Write to contract (transaction)
+    let tx = contract.setValue(U256::from(42));
+    let receipt = tx.send().await?.await?;
+    println!("Transaction hash: {}", receipt.transaction_hash);
+    
+    Ok(())
+}
+```
+
 ## Configuration
 
 ### Environment Variables
@@ -116,12 +161,16 @@ let api_key = TurnkeyP256ApiKey::generate();
 Check out the [examples](examples/) directory for complete working examples:
 
 - [`basic_usage.rs`](examples/basic_usage.rs) - Basic signing operations
-- More examples coming soon!
+- [`contract_call.rs`](examples/contract_call.rs) - Contract interaction and transaction signing
 
 Run an example:
 
 ```bash
+# Basic message signing
 cargo run --example basic_usage
+
+# Contract interaction and transaction signing
+cargo run --example contract_call
 ```
 
 ## License
