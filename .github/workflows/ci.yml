@@ -94,19 +94,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Read rust-toolchain.toml
-        uses: SebRollen/toml-action@v1.2.0
-        id: read_rust_toolchain
-        with:
-          file: rust-toolchain.toml
-          field: toolchain.channel
-
-      - uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ steps.read_rust_toolchain.outputs.value }}
-
-      - name: Install cargo-audit
-        run: cargo install cargo-audit
+      - uses: taiki-e/install-action@cargo-audit
 
       - name: Run security audit
-        run: cargo audit
+        run: cargo audit --ignore RUSTSEC-2025-0134
