@@ -12,36 +12,29 @@ categories = ["cryptography", "web-programming"]
 # Alloy ecosystem
 alloy-signer = "1.0"
 alloy-primitives = "1.0"
-alloy-consensus = "1.0"
-alloy-sol-types = "1.0"
-alloy-contract = "1.0"
-alloy-provider = "1.0"
-alloy-network = "1.0"
-alloy-rpc-types-eth = "1.0"
-alloy-rlp = "0.3"
 
 # Official Turnkey SDK
 turnkey_client = { git = "https://github.com/tkhq/rust-sdk.git", package = "turnkey_client" }
 
-# Async trait for cleaner async implementations
+# Async
 async-trait = "0.1"
-
-# HTTP client and async
-tokio = { version = "1.0", features = ["full"] }
-reqwest = { version = "0.11", features = ["json"] }
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
 
 # Error handling
 thiserror = "1.0"
-eyre = "0.6"
 
-# Crypto utilities
+# Utilities
 hex = "0.4"
-base64 = "0.21"
-dotenv = "0.15"
 
 [dev-dependencies]
+# Testing
+tokio = { version = "1.0", features = ["full"] }
 tokio-test = "0.4"
 mockito = "1.5"
 serde_json = "1.0"
+
+# Examples
+alloy-sol-types = "1.0"
+alloy-provider = "1.0"
+alloy-rpc-types-eth = "1.0"
+alloy-contract = "1.0"
+dotenv = "0.15"
