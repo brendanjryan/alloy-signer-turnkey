@@ -6,7 +6,7 @@ use turnkey_client::generated::immutable::common::v1::{HashFunction, PayloadEnco
 use turnkey_client::{TurnkeyClient, TurnkeyP256ApiKey};
 
 pub struct TurnkeySigner {
-    client: TurnkeyClient,
+    client: TurnkeyClient<TurnkeyP256ApiKey>,
     organization_id: String,
     address: Address,
     chain_id: Option<ChainId>,
@@ -74,11 +74,12 @@ impl Signer<Signature> for TurnkeySigner {
             .map_err(|e| alloy_signer::Error::other(format!("Turnkey API error: {e}")))?;
 
         // Parse signature components
-        let r_bytes = hex::decode(&response.r)
+        let result = &response.result;
+        let r_bytes = hex::decode(&result.r)
             .map_err(|e| alloy_signer::Error::other(format!("Invalid r: {e}")))?;
-        let s_bytes = hex::decode(&response.s)
+        let s_bytes = hex::decode(&result.s)
             .map_err(|e| alloy_signer::Error::other(format!("Invalid s: {e}")))?;
-        let v: u64 = response
+        let v: u64 = result
             .v
             .parse()
             .map_err(|e| alloy_signer::Error::other(format!("Invalid v: {e}")))?;

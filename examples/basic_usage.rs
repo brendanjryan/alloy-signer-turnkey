@@ -4,7 +4,7 @@ use std::env;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Load environment variables from .env file
-    dotenv::dotenv().ok();
+    dotenvy::dotenv().ok();
 
     let organization_id = env::var("TURNKEY_ORGANIZATION_ID")
         .expect("TURNKEY_ORGANIZATION_ID environment variable required");
