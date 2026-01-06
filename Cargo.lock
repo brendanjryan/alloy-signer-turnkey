@@ -406,7 +406,7 @@ dependencies = [
 
 [[package]]
 name = "alloy-signer-turnkey"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "alloy-contract",
  "alloy-primitives",
@@ -3853,8 +3853,9 @@ checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
 
 [[package]]
 name = "turnkey_api_key_stamper"
-version = "0.6.0"
-source = "git+https://github.com/tkhq/rust-sdk.git#35fd3ba52a297ad12b238ffb40cf0c657953b671"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b3b72664037582371dfa96bfaa2e272446ea2551e269455e9fe3166445c76736"
 dependencies = [
  "base64",
  "hex",
@@ -3868,8 +3869,9 @@ dependencies = [
 
 [[package]]
 name = "turnkey_client"
-version = "0.6.0"
-source = "git+https://github.com/tkhq/rust-sdk.git#35fd3ba52a297ad12b238ffb40cf0c657953b671"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4cbf8cea094b6536ecc5cfad42cd45d2f9abf523cc7dacf7de23f132412d0ec3"
 dependencies = [
  "mime",
  "prost",

@@ -74,12 +74,11 @@ impl Signer<Signature> for TurnkeySigner {
             .map_err(|e| alloy_signer::Error::other(format!("Turnkey API error: {e}")))?;
 
         // Parse signature components
-        let result = &response.result;
-        let r_bytes = hex::decode(&result.r)
+        let r_bytes = hex::decode(&response.r)
             .map_err(|e| alloy_signer::Error::other(format!("Invalid r: {e}")))?;
-        let s_bytes = hex::decode(&result.s)
+        let s_bytes = hex::decode(&response.s)
             .map_err(|e| alloy_signer::Error::other(format!("Invalid s: {e}")))?;
-        let v: u64 = result
+        let v: u64 = response
             .v
             .parse()
             .map_err(|e| alloy_signer::Error::other(format!("Invalid v: {e}")))?;
